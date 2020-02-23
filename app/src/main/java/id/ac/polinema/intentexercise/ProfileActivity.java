@@ -12,6 +12,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView fullnameText;
     private TextView emailText;
     private TextView passwordText;
+    private TextView confirmPasswordText;
     private TextView homepageText;
     private TextView aboutText;
 
