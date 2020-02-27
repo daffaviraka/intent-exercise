@@ -2,44 +2,50 @@ package id.ac.polinema.intentexercise;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import id.ac.polinema.intentexercise.model.UserModel;
+import java.io.IOException;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView fullnameText;
     private TextView emailText;
-    private TextView passwordText;
-    private TextView confirmPasswordText;
     private TextView homepageText;
     private TextView aboutText;
+    private ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-        // TODO: bind here
-        fullnameText = findViewById(R.id.text_fullname);
-        emailText = findViewById(R.id.text_email);
-        passwordText = findViewById(R.id.text_password);
-        homepageText = findViewById(R.id.text_homepage);
-        aboutText = findViewById(R.id.text_about);
+        fullnameText=findViewById(R.id.label_fullname);
+        emailText=findViewById(R.id.label_email);
+        homepageText=findViewById(R.id.label_homepage);
+        aboutText=findViewById(R.id.label_about);
+        image=findViewById(R.id.image_profile);
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-
-            // TODO: display value here
-            UserModel user = extras.getParcelable(RegisterActivity.USER_KEY);
-
-            fullnameText.setText(user.getFullname());
-            emailText.setText(user.getEmail());
-            passwordText.setText(user.getPassword());
-            homepageText.setText(user.getHomepage());
-            aboutText.setText(user.getAbout());
-
+        if (extras != null){
+            String fullname = extras.getString(RegisterActivity.FULLNAME_KEY);
+            String email = extras.getString(RegisterActivity.EMAIL_KEY);
+            String homepage = extras.getString(RegisterActivity.HOMEPAGE_KEY);
+            String about = extras.getString(RegisterActivity.ABOUT_KEY);
+            String imageProfile = extras.getString(RegisterActivity.IMAGE_KEY);
+            fullnameText.setText(fullname);
+            emailText.setText(email);
+            homepageText.setText(homepage);
+            aboutText.setText(about);
+            try {
+                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(imageProfile));
+                image.setImageBitmap(imageBitmap);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
     }
 }
